@@ -9,11 +9,26 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 //ダウンロードページエンドポイント定義
-app.get("/download", (req, res) => {
+app.get("/paDL", (req, res) => {
   const filePath = path.join(__dirname, "files", "run_pad.exe");
 
   //ファイル送信
   res.download(filePath, "run_pad.exe", (err) => {
+    if (err) {
+      console.error("ファイルダウンロード中にエラーが発生:", err);
+
+      //クライアントにエラーメッセージをreturnさせる
+      res.status(500).send("ファイルダウンロードに失敗しました");
+    }
+  });
+});
+
+//ダウンロードページエンドポイント定義Excel自動化スクリプト
+app.get("/xlsxDL", (req, res) => {
+  const filePath = path.join(__dirname, "files", "xlsx.exe");
+
+  //ファイル送信
+  res.download(filePath, "xlsx.exe", (err) => {
     if (err) {
       console.error("ファイルダウンロード中にエラーが発生:", err);
 
